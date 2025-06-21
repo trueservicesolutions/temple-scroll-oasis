@@ -1,9 +1,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { Home, Activity, CalendarDays, MessageSquare, Contact, Heart } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,20 +37,20 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-yellow-50">
+    <div className={`min-h-screen bg-gradient-to-b from-orange-50 to-yellow-50 ${language === 'mr' ? 'font-devanagari' : ''}`}>
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md shadow-lg z-50 transition-all duration-300">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="text-2xl font-bold text-orange-800">Sacred Temple</div>
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex space-x-8 items-center">
               {[
-                { id: 'home', label: 'Home', icon: Home },
-                { id: 'about', label: 'About', icon: MessageSquare },
-                { id: 'activities', label: 'Activities', icon: Activity },
-                { id: 'events', label: 'Events', icon: CalendarDays },
-                { id: 'donate', label: 'Donate', icon: Heart },
-                { id: 'contact', label: 'Contact', icon: Contact },
+                { id: 'home', label: t('nav.home'), icon: Home },
+                { id: 'about', label: t('nav.about'), icon: MessageSquare },
+                { id: 'activities', label: t('nav.activities'), icon: Activity },
+                { id: 'events', label: t('nav.events'), icon: CalendarDays },
+                { id: 'donate', label: t('nav.donate'), icon: Heart },
+                { id: 'contact', label: t('nav.contact'), icon: Contact },
               ].map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
@@ -60,8 +63,10 @@ const Index = () => {
                   <span>{label}</span>
                 </button>
               ))}
+              <LanguageSwitcher />
             </div>
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center space-x-4">
+              <LanguageSwitcher />
               <button className="text-orange-800">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -84,16 +89,16 @@ const Index = () => {
         </div>
         <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-            Welcome to Sacred Temple
+            {t('hero.title')}
           </h1>
           <p className="text-xl md:text-2xl mb-8 opacity-90">
-            A place of peace, prayer, and community worship
+            {t('hero.subtitle')}
           </p>
           <button
             onClick={() => scrollToSection('about')}
             className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
-            Discover Our Mission
+            {t('hero.cta')}
           </button>
         </div>
       </section>
@@ -102,7 +107,7 @@ const Index = () => {
       <section id="about" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold text-orange-800 mb-8">About Our Temple</h2>
+            <h2 className="text-4xl font-bold text-orange-800 mb-8">{t('about.title')}</h2>
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
                 <img
@@ -113,23 +118,19 @@ const Index = () => {
               </div>
               <div className="text-left">
                 <p className="text-lg text-gray-700 mb-6">
-                  For over 50 years, Sacred Temple has been a beacon of spiritual guidance and community service. 
-                  Our temple serves as a sanctuary where people from all walks of life come together to find peace, 
-                  wisdom, and connection.
+                  {t('about.description1')}
                 </p>
                 <p className="text-lg text-gray-700 mb-6">
-                  We believe in the power of meditation, prayer, and community service to transform lives and 
-                  create positive change in our world. Our doors are always open to those seeking spiritual 
-                  growth and inner peace.
+                  {t('about.description2')}
                 </p>
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div className="bg-orange-50 p-4 rounded-lg">
                     <h3 className="text-2xl font-bold text-orange-800">50+</h3>
-                    <p className="text-gray-600">Years of Service</p>
+                    <p className="text-gray-600">{t('about.yearsOfService')}</p>
                   </div>
                   <div className="bg-orange-50 p-4 rounded-lg">
                     <h3 className="text-2xl font-bold text-orange-800">1000+</h3>
-                    <p className="text-gray-600">Community Members</p>
+                    <p className="text-gray-600">{t('about.communityMembers')}</p>
                   </div>
                 </div>
               </div>
@@ -142,38 +143,38 @@ const Index = () => {
       <section id="activities" className="py-20 bg-gradient-to-r from-orange-50 to-yellow-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold text-orange-800 text-center mb-12">Our Activities</h2>
+            <h2 className="text-4xl font-bold text-orange-800 text-center mb-12">{t('activities.title')}</h2>
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  title: "Daily Prayers",
-                  description: "Join us for morning and evening prayers every day. Experience the tranquility of collective worship.",
-                  time: "6:00 AM & 7:00 PM"
+                  title: t('activities.dailyPrayers.title'),
+                  description: t('activities.dailyPrayers.description'),
+                  time: t('activities.dailyPrayers.time')
                 },
                 {
-                  title: "Meditation Sessions",
-                  description: "Guided meditation sessions to help you find inner peace and spiritual clarity.",
-                  time: "Saturdays 9:00 AM"
+                  title: t('activities.meditation.title'),
+                  description: t('activities.meditation.description'),
+                  time: t('activities.meditation.time')
                 },
                 {
-                  title: "Community Service",
-                  description: "Participate in our weekly community service programs helping those in need.",
-                  time: "Sundays 10:00 AM"
+                  title: t('activities.communityService.title'),
+                  description: t('activities.communityService.description'),
+                  time: t('activities.communityService.time')
                 },
                 {
-                  title: "Spiritual Discourses",
-                  description: "Weekly teachings and discussions on spiritual philosophy and ancient wisdom.",
-                  time: "Thursdays 7:00 PM"
+                  title: t('activities.spiritualDiscourses.title'),
+                  description: t('activities.spiritualDiscourses.description'),
+                  time: t('activities.spiritualDiscourses.time')
                 },
                 {
-                  title: "Youth Programs",
-                  description: "Special programs designed for young people to learn about values and spirituality.",
-                  time: "Saturdays 4:00 PM"
+                  title: t('activities.youthPrograms.title'),
+                  description: t('activities.youthPrograms.description'),
+                  time: t('activities.youthPrograms.time')
                 },
                 {
-                  title: "Festival Celebrations",
-                  description: "Celebrate traditional festivals with music, dance, and community feasts.",
-                  time: "Various Dates"
+                  title: t('activities.festivals.title'),
+                  description: t('activities.festivals.description'),
+                  time: t('activities.festivals.time')
                 }
               ].map((activity, index) => (
                 <div key={index} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
@@ -191,26 +192,26 @@ const Index = () => {
       <section id="events" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-4xl font-bold text-orange-800 text-center mb-12">Upcoming Events</h2>
+            <h2 className="text-4xl font-bold text-orange-800 text-center mb-12">{t('events.title')}</h2>
             <div className="space-y-6">
               {[
                 {
-                  date: "March 15, 2024",
-                  title: "Spring Festival Celebration",
-                  description: "Join us for our annual spring festival with traditional music, dance, and community feast.",
-                  time: "10:00 AM - 6:00 PM"
+                  date: t('events.springFestival.date'),
+                  title: t('events.springFestival.title'),
+                  description: t('events.springFestival.description'),
+                  time: t('events.springFestival.time')
                 },
                 {
-                  date: "March 22, 2024",
-                  title: "Meditation Retreat",
-                  description: "A day-long meditation retreat for deepening your spiritual practice.",
-                  time: "8:00 AM - 5:00 PM"
+                  date: t('events.meditationRetreat.date'),
+                  title: t('events.meditationRetreat.title'),
+                  description: t('events.meditationRetreat.description'),
+                  time: t('events.meditationRetreat.time')
                 },
                 {
-                  date: "April 5, 2024",
-                  title: "Community Service Day",
-                  description: "Special community service event helping local families in need.",
-                  time: "9:00 AM - 3:00 PM"
+                  date: t('events.communityServiceDay.date'),
+                  title: t('events.communityServiceDay.title'),
+                  description: t('events.communityServiceDay.description'),
+                  time: t('events.communityServiceDay.time')
                 }
               ].map((event, index) => (
                 <div key={index} className="bg-gradient-to-r from-orange-50 to-yellow-50 p-6 rounded-lg border-l-4 border-orange-500">
@@ -237,43 +238,41 @@ const Index = () => {
       <section id="donate" className="py-20 bg-gradient-to-r from-orange-100 to-yellow-100">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl font-bold text-orange-800 mb-8">Support Our Mission</h2>
+            <h2 className="text-4xl font-bold text-orange-800 mb-8">{t('donate.title')}</h2>
             <p className="text-xl text-gray-700 mb-12">
-              Your generous donations help us maintain our temple, support community programs, 
-              and provide spiritual guidance to all who seek it.
+              {t('donate.description')}
             </p>
             <div className="grid md:grid-cols-3 gap-8 mb-12">
               {[
                 {
                   amount: "$25",
-                  description: "Supports daily temple maintenance and utilities"
+                  description: t('donate.donation25')
                 },
                 {
                   amount: "$50",
-                  description: "Funds community service programs for one week"
+                  description: t('donate.donation50')
                 },
                 {
                   amount: "$100",
-                  description: "Sponsors a meditation session or spiritual discourse"
+                  description: t('donate.donation100')
                 }
               ].map((donation, index) => (
                 <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
                   <div className="text-3xl font-bold text-orange-600 mb-3">{donation.amount}</div>
                   <p className="text-gray-700">{donation.description}</p>
                   <button className="mt-4 bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-full transition-all duration-300">
-                    Donate Now
+                    {t('donate.donateNow')}
                   </button>
                 </div>
               ))}
             </div>
             <div className="bg-white p-8 rounded-lg shadow-lg">
-              <h3 className="text-2xl font-bold text-orange-800 mb-4">Other Ways to Give</h3>
+              <h3 className="text-2xl font-bold text-orange-800 mb-4">{t('donate.otherWays')}</h3>
               <p className="text-gray-700 mb-6">
-                You can also support us through volunteer work, spreading awareness about our mission, 
-                or participating in our fundraising events throughout the year.
+                {t('donate.otherWaysDescription')}
               </p>
               <button className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 rounded-full text-lg font-semibold transition-all duration-300">
-                Learn More About Giving
+                {t('donate.learnMore')}
               </button>
             </div>
           </div>
@@ -284,10 +283,10 @@ const Index = () => {
       <section id="contact" className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold text-orange-800 text-center mb-12">Contact Us</h2>
+            <h2 className="text-4xl font-bold text-orange-800 text-center mb-12">{t('contact.title')}</h2>
             <div className="grid md:grid-cols-2 gap-12">
               <div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-6">Get In Touch</h3>
+                <h3 className="text-2xl font-bold text-gray-800 mb-6">{t('contact.getInTouch')}</h3>
                 <div className="space-y-4">
                   <div className="flex items-start space-x-3">
                     <div className="bg-orange-100 p-2 rounded-full">
@@ -297,8 +296,8 @@ const Index = () => {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800">Address</h4>
-                      <p className="text-gray-600">123 Sacred Street, Peaceful Valley, PV 12345</p>
+                      <h4 className="font-semibold text-gray-800">{t('contact.address')}</h4>
+                      <p className="text-gray-600">{t('contact.addressValue')}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
@@ -308,8 +307,8 @@ const Index = () => {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800">Phone</h4>
-                      <p className="text-gray-600">(555) 123-4567</p>
+                      <h4 className="font-semibold text-gray-800">{t('contact.phone')}</h4>
+                      <p className="text-gray-600">{t('contact.phoneValue')}</p>
                     </div>
                   </div>
                   <div className="flex items-start space-x-3">
@@ -319,24 +318,24 @@ const Index = () => {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-semibold text-gray-800">Email</h4>
-                      <p className="text-gray-600">info@sacredtemple.org</p>
+                      <h4 className="font-semibold text-gray-800">{t('contact.email')}</h4>
+                      <p className="text-gray-600">{t('contact.emailValue')}</p>
                     </div>
                   </div>
                 </div>
                 <div className="mt-8">
-                  <h4 className="font-semibold text-gray-800 mb-4">Temple Hours</h4>
+                  <h4 className="font-semibold text-gray-800 mb-4">{t('contact.templeHours')}</h4>
                   <div className="space-y-2 text-gray-600">
                     <div className="flex justify-between">
-                      <span>Monday - Friday</span>
+                      <span>{t('contact.mondayFriday')}</span>
                       <span>6:00 AM - 9:00 PM</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Saturday</span>
+                      <span>{t('contact.saturday')}</span>
                       <span>5:00 AM - 10:00 PM</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Sunday</span>
+                      <span>{t('contact.sunday')}</span>
                       <span>5:00 AM - 10:00 PM</span>
                     </div>
                   </div>
@@ -346,57 +345,57 @@ const Index = () => {
                 <form className="space-y-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Full Name
+                      {t('contact.fullName')}
                     </label>
                     <input
                       type="text"
                       id="name"
                       name="name"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="Your full name"
+                      placeholder={t('contact.namePlaceholder')}
                     />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address
+                      {t('contact.emailAddress')}
                     </label>
                     <input
                       type="email"
                       id="email"
                       name="email"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="your.email@example.com"
+                      placeholder={t('contact.emailPlaceholder')}
                     />
                   </div>
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                      Subject
+                      {t('contact.subject')}
                     </label>
                     <input
                       type="text"
                       id="subject"
                       name="subject"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="How can we help you?"
+                      placeholder={t('contact.subjectPlaceholder')}
                     />
                   </div>
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                      Message
+                      {t('contact.message')}
                     </label>
                     <textarea
                       id="message"
                       name="message"
                       rows={5}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                      placeholder="Please share your thoughts or questions..."
+                      placeholder={t('contact.messagePlaceholder')}
                     ></textarea>
                   </div>
                   <button
                     type="submit"
                     className="w-full bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300"
                   >
-                    Send Message
+                    {t('contact.sendMessage')}
                   </button>
                 </form>
               </div>
@@ -412,8 +411,7 @@ const Index = () => {
             <div className="md:col-span-2">
               <h3 className="text-2xl font-bold mb-4">Sacred Temple</h3>
               <p className="text-orange-200 mb-4">
-                A sanctuary of peace, wisdom, and community service. Join us in our mission to spread love, 
-                compassion, and spiritual growth throughout our community.
+                {t('footer.description')}
               </p>
               <div className="flex space-x-4">
                 <button className="bg-orange-800 hover:bg-orange-700 p-2 rounded-full transition-colors duration-300">
@@ -434,16 +432,16 @@ const Index = () => {
               </div>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
+              <h4 className="text-lg font-semibold mb-4">{t('footer.quickLinks')}</h4>
               <ul className="space-y-2 text-orange-200">
-                <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">About Us</button></li>
-                <li><button onClick={() => scrollToSection('activities')} className="hover:text-white transition-colors">Activities</button></li>
-                <li><button onClick={() => scrollToSection('events')} className="hover:text-white transition-colors">Events</button></li>
-                <li><button onClick={() => scrollToSection('donate')} className="hover:text-white transition-colors">Donate</button></li>
+                <li><button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">{t('nav.about')}</button></li>
+                <li><button onClick={() => scrollToSection('activities')} className="hover:text-white transition-colors">{t('nav.activities')}</button></li>
+                <li><button onClick={() => scrollToSection('events')} className="hover:text-white transition-colors">{t('nav.events')}</button></li>
+                <li><button onClick={() => scrollToSection('donate')} className="hover:text-white transition-colors">{t('nav.donate')}</button></li>
               </ul>
             </div>
             <div>
-              <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
+              <h4 className="text-lg font-semibold mb-4">{t('footer.contactInfo')}</h4>
               <div className="space-y-2 text-orange-200">
                 <p>123 Sacred Street</p>
                 <p>Peaceful Valley, PV 12345</p>
@@ -453,7 +451,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-orange-800 mt-8 pt-8 text-center text-orange-200">
-            <p>&copy; 2024 Sacred Temple. All rights reserved. Built with love and devotion.</p>
+            <p>{t('footer.copyright')}</p>
           </div>
         </div>
       </footer>

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Home, Activity, CalendarDays, MessageSquare, Contact, Donate } from 'lucide-react';
+import { Home, Activity, CalendarDays, MessageSquare, Contact, Heart } from 'lucide-react';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -46,7 +46,7 @@ const Index = () => {
                 { id: 'about', label: 'About', icon: MessageSquare },
                 { id: 'activities', label: 'Activities', icon: Activity },
                 { id: 'events', label: 'Events', icon: CalendarDays },
-                { id: 'donate', label: 'Donate', icon: Donate },
+                { id: 'donate', label: 'Donate', icon: Heart },
                 { id: 'contact', label: 'Contact', icon: Contact },
               ].map(({ id, label, icon: Icon }) => (
                 <button
